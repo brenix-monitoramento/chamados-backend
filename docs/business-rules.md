@@ -38,7 +38,7 @@
 - permitir listar equipamentos cadastrados.
 - permitir editar equipamentos cadastrados.
 - permitir excluir equipamentos cadastrados.
-- permitir pesquisar equipamentos cadastrados.
+- permitir pesquisar equipamentos cadastrados pelo ID Sefit ou Local/Via.
 - (opcional) permitir paginar equipamentos cadastrados.
 - (opcional) permitir ordernar as colunas de tipo de equipamento e número de série de equipamento.
 
