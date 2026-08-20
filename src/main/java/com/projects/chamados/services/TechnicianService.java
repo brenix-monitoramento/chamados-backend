@@ -17,7 +17,7 @@ public class TechnicianService {
     @Autowired
     private TechnicianRepository technicianRepository;
 
-    private Technician findIfExists(UUID technicianId){
+    public Technician findIfExists(UUID technicianId){
         return this.technicianRepository.findById(technicianId).orElseThrow(() -> new NotFoundException(Constants.TECHNICIAN_NOT_FOUND));
     }
 

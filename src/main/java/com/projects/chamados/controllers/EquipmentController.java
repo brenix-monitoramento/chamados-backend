@@ -1,7 +1,9 @@
 package com.projects.chamados.controllers;
 
+import com.projects.chamados.dtos.inputs.EquipmentInputDTO;
 import com.projects.chamados.dtos.outputs.EquipmentOutputDTO;
 import com.projects.chamados.services.EquipmentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,13 @@ public class EquipmentController {
         var equipments = this.equipmentService.listAll();
 
         return ResponseEntity.ok().body(equipments);
+    }
+
+    @PostMapping
+    public ResponseEntity<EquipmentOutputDTO> post(@RequestBody @Valid EquipmentInputDTO equipment){
+        var createdEquipment = this.equipmentService.create(equipment);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEquipment);
     }
 
     @DeleteMapping(value="/{equipmentId}")
