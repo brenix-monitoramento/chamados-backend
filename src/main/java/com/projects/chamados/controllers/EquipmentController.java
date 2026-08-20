@@ -19,8 +19,10 @@ public class EquipmentController {
     private EquipmentService equipmentService;
 
     @GetMapping
-    public ResponseEntity<List<EquipmentOutputDTO>> getAll(){
-        var equipments = this.equipmentService.listAll();
+    public ResponseEntity<List<EquipmentOutputDTO>> getAllBySearch(
+            @RequestParam(required = true) String searchTerm
+    ){
+        var equipments = this.equipmentService.listAllBySearch(searchTerm);
 
         return ResponseEntity.ok().body(equipments);
     }

@@ -25,8 +25,9 @@ public class EquipmentService {
        return this.equipmentRepository.findById(equipmentId).orElseThrow(() -> new NotFoundException(Constants.EQUIPMENT_NOT_FOUND));
     }
 
-    public List<EquipmentOutputDTO> listAll(){
-        return this.equipmentRepository.findAll().stream()
+    public List<EquipmentOutputDTO> listAllBySearch(String searchTerm){
+        return this.equipmentRepository.findByLocationContainingIgnoreCaseOrIdSefitContainingIgnoreCase(searchTerm, searchTerm)
+                .stream()
                 .map(equipment -> new EquipmentOutputDTO(equipment))
                 .toList();
     }
