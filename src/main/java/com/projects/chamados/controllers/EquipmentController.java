@@ -32,6 +32,13 @@ public class EquipmentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdEquipment);
     }
 
+    @PutMapping(value="/{equipmentId}")
+    public ResponseEntity<EquipmentOutputDTO> put(@PathVariable UUID equipmentId, @RequestBody @Valid EquipmentInputDTO equipment){
+        var updatedEquipment = this.equipmentService.updateById(equipmentId, equipment);
+
+        return ResponseEntity.ok().body(updatedEquipment);
+    }
+
     @DeleteMapping(value="/{equipmentId}")
     public ResponseEntity<Void> delete(@PathVariable UUID equipmentId){
         this.equipmentService.deleteById(equipmentId);

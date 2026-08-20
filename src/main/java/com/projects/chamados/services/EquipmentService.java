@@ -49,6 +49,26 @@ public class EquipmentService {
         return new EquipmentOutputDTO(createdEquipment);
     }
 
+    public EquipmentOutputDTO updateById(UUID equipmentId, EquipmentInputDTO equipment){
+        this.findIfExists(equipmentId);
+        this.technicianService.findIfExists(equipment.technicianId());
+
+        var updatedEquipment = new Equipment();
+        updatedEquipment.setId(equipmentId);
+        updatedEquipment.setLocation(equipment.location());
+        updatedEquipment.setType(equipment.type());
+        updatedEquipment.setIdSefit(equipment.idSefit());
+        updatedEquipment.setSerialNumber(equipment.serialNumber());
+
+        var technician = new Technician();
+        technician.setId(equipment.technicianId());
+        updatedEquipment.setTechnician(technician);
+
+        this.equipmentRepository.save(updatedEquipment);
+
+        return new EquipmentOutputDTO(updatedEquipment);
+    }
+
     public void deleteById(UUID equipmentId){
         var equipment = this.findIfExists(equipmentId);
 
