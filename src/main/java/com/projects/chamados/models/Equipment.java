@@ -3,6 +3,8 @@ package com.projects.chamados.models;
 import com.projects.chamados.enums.EquipmentType;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +22,8 @@ public class Equipment {
     @ManyToOne
     @JoinColumn(name="technician_id")
     private Technician technician;
+    @OneToMany(mappedBy = "equipment")
+    private List<OpenTicket> openTickets = new ArrayList<>();
 
     public Equipment(){}
 
@@ -79,4 +83,6 @@ public class Equipment {
     public void setTechnician(Technician technician){
         this.technician = technician;
     }
+
+    public List<OpenTicket> getOpenTickets(){return this.openTickets;}
 }

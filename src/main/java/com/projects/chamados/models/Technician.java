@@ -20,6 +20,8 @@ public class Technician {
     private String password;
     @OneToMany(mappedBy = "technician")
     private List<Equipment> equipments = new ArrayList<>();
+    @OneToMany(mappedBy = "technician")
+    private List<OpenTicket> openTickets = new ArrayList<>();
 
     public Technician() {
 
@@ -76,4 +78,6 @@ public class Technician {
     public List<Equipment> getEquipments() {
         return this.equipments;
     }
+
+    public List<OpenTicket> getOpenTickets() {return this.openTickets;}
 }
