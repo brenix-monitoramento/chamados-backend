@@ -2,6 +2,8 @@ package com.projects.chamados.models;
 
 import com.projects.chamados.enums.OpenTicketStatus;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -31,6 +33,7 @@ public class OpenTicket {
     private Technician technician;
     @ManyToOne
     @JoinColumn(name = "equipment_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Equipment equipment;
 
     public OpenTicket(){

@@ -11,6 +11,7 @@ import java.util.UUID;
 public record OpenTicketOutputDTO(
         UUID id,
         String idChamado,
+        UUID equipmentId,
         String equipmentIdSefit,
         String equipmentLocation,
         EquipmentType equipmentType,
@@ -26,6 +27,7 @@ public record OpenTicketOutputDTO(
         this(
                 openTicket.getId(),
                 openTicket.getIdChamado(),
+                openTicket.getEquipment().getId(),
                 openTicket.getEquipment().getIdSefit(),
                 openTicket.getEquipment().getLocation(),
                 openTicket.getEquipment().getType(),
