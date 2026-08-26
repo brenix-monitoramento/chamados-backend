@@ -1,6 +1,7 @@
 package com.projects.chamados.services;
 
 import com.projects.chamados.dtos.inputs.EquipmentInputDTO;
+import com.projects.chamados.dtos.outputs.EquipmentListOutputDTO;
 import com.projects.chamados.dtos.outputs.EquipmentOutputDTO;
 import com.projects.chamados.exceptions.NotFoundException;
 import com.projects.chamados.models.Equipment;
@@ -10,7 +11,6 @@ import com.projects.chamados.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,11 +25,13 @@ public class EquipmentService {
        return this.equipmentRepository.findById(equipmentId).orElseThrow(() -> new NotFoundException(Constants.EQUIPMENT_NOT_FOUND));
     }
 
-    public List<EquipmentOutputDTO> listAllBySearch(String searchTerm){
-        return this.equipmentRepository.findByLocationContainingIgnoreCaseOrIdSefitContainingIgnoreCase(searchTerm, searchTerm)
+    public EquipmentListOutputDTO listAllBySearch(String searchTerm){
+        var equipmentList = this.equipmentRepository.findByLocationContainingIgnoreCaseOrIdSefitContainingIgnoreCase(searchTerm, searchTerm)
                 .stream()
                 .map(equipment -> new EquipmentOutputDTO(equipment))
                 .toList();
+
+        return new EquipmentListOutputDTO(equipmentList);
     }
 
     public EquipmentOutputDTO create(EquipmentInputDTO equipment){

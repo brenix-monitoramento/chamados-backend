@@ -1,6 +1,7 @@
 package com.projects.chamados.controllers;
 
 import com.projects.chamados.dtos.inputs.EquipmentInputDTO;
+import com.projects.chamados.dtos.outputs.EquipmentListOutputDTO;
 import com.projects.chamados.dtos.outputs.EquipmentOutputDTO;
 import com.projects.chamados.services.EquipmentService;
 import jakarta.validation.Valid;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,7 +19,7 @@ public class EquipmentController {
     private EquipmentService equipmentService;
 
     @GetMapping
-    public ResponseEntity<List<EquipmentOutputDTO>> getAllBySearch(
+    public ResponseEntity<EquipmentListOutputDTO> getAllBySearch(
             @RequestParam(required = true) String searchTerm
     ){
         var equipments = this.equipmentService.listAllBySearch(searchTerm);
