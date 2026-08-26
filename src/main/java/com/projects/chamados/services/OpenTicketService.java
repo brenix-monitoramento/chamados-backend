@@ -21,7 +21,7 @@ public class OpenTicketService {
     }
 
     public List<OpenTicketOutputDTO> listAllBySearch (String searchTerm){
-        return this.openTicketRepository.findByIdChamadoContainingIgnoreCaseOrEquipment_IdSefitContainingIgnoreCase(searchTerm, searchTerm)
+        return this.openTicketRepository.findByIdChamadoContainingIgnoreCaseOrEquipment_IdSefitContainingIgnoreCaseOrderByIdChamadoDesc(searchTerm, searchTerm)
                 .stream()
                 .map(openTicket -> new OpenTicketOutputDTO(openTicket)).toList();
     }

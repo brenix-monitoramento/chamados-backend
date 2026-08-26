@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface OpenTicketRepository extends JpaRepository<OpenTicket, UUID> {
-    List<OpenTicket> findByIdChamadoContainingIgnoreCaseOrEquipment_IdSefitContainingIgnoreCase(String idChamado, String idSefit);
+    List<OpenTicket> findByIdChamadoContainingIgnoreCaseOrEquipment_IdSefitContainingIgnoreCaseOrderByIdChamadoDesc(String idChamado, String idSefit);
 }
