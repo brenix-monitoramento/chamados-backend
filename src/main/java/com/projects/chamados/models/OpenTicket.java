@@ -15,7 +15,7 @@ public class OpenTicket {
     @Id
     @GeneratedValue
     private UUID id;
-    @Column(name = "id_chamado")
+    @Column(name = "id_chamado", unique = true)
     private String idChamado;
     private OpenTicketStatus status;
     private String incident;

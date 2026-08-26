@@ -21,7 +21,7 @@ public class EquipmentService {
     @Autowired
     private TechnicianService technicianService;
 
-    private Equipment findIfExists(UUID equipmentId){
+    public Equipment findIfExists(UUID equipmentId){
        return this.equipmentRepository.findById(equipmentId).orElseThrow(() -> new NotFoundException(Constants.EQUIPMENT_NOT_FOUND));
     }
 

@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface OpenTicketRepository extends JpaRepository<OpenTicket, UUID> {
     List<OpenTicket> findByIdChamadoContainingIgnoreCaseOrEquipment_IdSefitContainingIgnoreCaseOrderByIdChamadoDesc(String idChamado, String idSefit);
+
+    Boolean existsByIdChamado(String idSefit);
 }
