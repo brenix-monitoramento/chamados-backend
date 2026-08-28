@@ -2,6 +2,8 @@ package com.projects.chamados.services;
 
 import com.projects.chamados.dtos.inputs.OpenTicketInputDTO;
 import com.projects.chamados.dtos.outputs.OpenTicketOutputDTO;
+import com.projects.chamados.enums.OpenTicketStatus;
+import com.projects.chamados.exceptions.BadRequestException;
 import com.projects.chamados.exceptions.ConflictException;
 import com.projects.chamados.exceptions.NotFoundException;
 import com.projects.chamados.models.OpenTicket;
@@ -10,6 +12,8 @@ import com.projects.chamados.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +36,13 @@ public class OpenTicketService {
         if(exists) throw new ConflictException(Constants.ID_CHAMADO_ALREADY_EXISTS);
     }
 
+    private void verifyIfEndDateOrEndTimeIsNullByOpenTicketStatus(LocalDate endDate, LocalTime endTime, OpenTicketStatus opentTicketStatus){
+        boolean isNull = endDate == null || endTime == null;
+        boolean isInvalid = isNull && opentTicketStatus == OpenTicketStatus.COMPLETED;
+
+        if(isInvalid) throw new BadRequestException(Constants.ENTER_THE_END_DATE_AND_END_TIME);
+    }
+
     public List<OpenTicketOutputDTO> listAllBySearch (String searchTerm){
         return this.openTicketRepository.findByIdChamadoContainingIgnoreCaseOrEquipment_IdSefitContainingIgnoreCaseOrderByIdChamadoDesc(searchTerm, searchTerm)
                 .stream()
@@ -40,6 +51,8 @@ public class OpenTicketService {
 
     public OpenTicketOutputDTO create(OpenTicketInputDTO openTicket){
         this.findIfIdChamadoAlreadyExists(openTicket.idChamado());
+        this.verifyIfEndDateOrEndTimeIsNullByOpenTicketStatus(openTicket.endDate(), openTicket.endTime(), openTicket.status());
+
         var technician = this.technicianService.findIfExists(openTicket.technicianId());
         var equipment = this.equipmentService.findIfExists(openTicket.equipmentId());
 
