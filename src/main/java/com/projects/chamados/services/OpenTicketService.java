@@ -36,11 +36,13 @@ public class OpenTicketService {
         if(exists) throw new ConflictException(Constants.ID_CHAMADO_ALREADY_EXISTS);
     }
 
-    private void verifyIfEndDateOrEndTimeIsNullByOpenTicketStatus(LocalDate endDate, LocalTime endTime, OpenTicketStatus opentTicketStatus){
-        boolean isNull = endDate == null || endTime == null;
-        boolean isInvalid = isNull && opentTicketStatus == OpenTicketStatus.COMPLETED;
+    private void validateEndDateAndEndTimeFieldsByOpenTicketStatus(LocalDate endDate, LocalTime endTime, OpenTicketStatus opentTicketStatus){
+        boolean endDateOrEndTimeIsNull = endDate == null || endTime == null;
+        boolean endDateOrEndTimeIsNotNull = endDate != null || endTime != null;
 
-        if(isInvalid) throw new BadRequestException(Constants.ENTER_THE_END_DATE_AND_END_TIME);
+        boolean isInvalid = (endDateOrEndTimeIsNull && opentTicketStatus == OpenTicketStatus.COMPLETED) || (endDateOrEndTimeIsNotNull && opentTicketStatus == OpenTicketStatus.IN_PROGRESS);
+
+        if(isInvalid) throw new BadRequestException(Constants.CHECK_THE_END_DATE_AND_END_TIME_FIELDS);
     }
 
     public List<OpenTicketOutputDTO> listAllBySearch (String searchTerm){
@@ -51,7 +53,7 @@ public class OpenTicketService {
 
     public OpenTicketOutputDTO create(OpenTicketInputDTO openTicket){
         this.findIfIdChamadoAlreadyExists(openTicket.idChamado());
-        this.verifyIfEndDateOrEndTimeIsNullByOpenTicketStatus(openTicket.endDate(), openTicket.endTime(), openTicket.status());
+        this.validateEndDateAndEndTimeFieldsByOpenTicketStatus(openTicket.endDate(), openTicket.endTime(), openTicket.status());
 
         var technician = this.technicianService.findIfExists(openTicket.technicianId());
         var equipment = this.equipmentService.findIfExists(openTicket.equipmentId());
@@ -72,6 +74,37 @@ public class OpenTicketService {
         this.openTicketRepository.save(createdOpenTicket);
 
         return new OpenTicketOutputDTO(createdOpenTicket);
+    }
+
+    public OpenTicketOutputDTO updateById(UUID openTicketId, OpenTicketInputDTO openTicket){
+        String searchedIdChamado = this.findIfExists(openTicketId).getIdChamado();
+
+        if(!searchedIdChamado.equals(openTicket.idChamado())){
+            this.findIfIdChamadoAlreadyExists(openTicket.idChamado());
+        }
+
+        this.validateEndDateAndEndTimeFieldsByOpenTicketStatus(openTicket.endDate(), openTicket.endTime(), openTicket.status());
+
+        var technician = this.technicianService.findIfExists(openTicket.technicianId());
+        var equipment = this.equipmentService.findIfExists(openTicket.equipmentId());
+
+        var updatedOpenTicket = new OpenTicket();
+        updatedOpenTicket.setId(openTicketId);
+        updatedOpenTicket.setIdChamado(openTicket.idChamado());
+        updatedOpenTicket.setStatus(openTicket.status());
+        updatedOpenTicket.setIncident(openTicket.incident());
+        updatedOpenTicket.setStartDate(openTicket.startDate());
+        updatedOpenTicket.setStartTime(openTicket.startTime());
+        updatedOpenTicket.setEndDate(openTicket.endDate());
+        updatedOpenTicket.setEndTime(openTicket.endTime());
+        updatedOpenTicket.setObservations(openTicket.observations());
+
+        updatedOpenTicket.setTechnician(technician);
+        updatedOpenTicket.setEquipment(equipment);
+
+        this.openTicketRepository.save(updatedOpenTicket);
+
+        return new OpenTicketOutputDTO(updatedOpenTicket);
     }
 
     public void deleteById(UUID openTicketId){

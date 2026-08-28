@@ -34,6 +34,13 @@ public class OpenTicketController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOpenTicket);
     }
 
+    @PutMapping(value = "/{openTicketId}")
+    public ResponseEntity<OpenTicketOutputDTO> put(@PathVariable UUID openTicketId, @RequestBody @Valid OpenTicketInputDTO openTicket){
+        var updatedOpenTicket = this.openTicketService.updateById(openTicketId, openTicket);
+
+        return ResponseEntity.ok().body(updatedOpenTicket);
+    }
+
     @DeleteMapping(value = "/{openTicketId}")
     public ResponseEntity<Void> delete(@PathVariable UUID openTicketId){
         this.openTicketService.deleteById(openTicketId);
