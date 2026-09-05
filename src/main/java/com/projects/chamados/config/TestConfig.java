@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,17 +25,20 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private TechnicianRepository technicianRepository;
     @Autowired
-    EquipmentRepository equipmentRepository;
+    private EquipmentRepository equipmentRepository;
     @Autowired
-    OpenTicketRepository openTicketRepository;
+    private OpenTicketRepository openTicketRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Override
     public void run(String... args){
         // instâncias de técnicos
-        var John = new Technician(null, "John Lorem Ipsum", "john@mail.com", TechnicianShift.DAYTIME, "123password.");
-        var Marie = new Technician(null, "Marie Lorem Ipsum", "marie@mail.com", TechnicianShift.NIGHTTIME, "123password.");
-        var Andrew = new Technician(null, "Andrew Lorem Ipsum", "andrew@mail.com", TechnicianShift.DAYTIME, "123password.");
-        var Paul = new Technician(null, "Paul Lorem Ipsum", "paul@mail.com", TechnicianShift.NIGHTTIME, "123password.");
+        var John = new Technician(null, "John Lorem Ipsum", "john@mail.com", TechnicianShift.DAYTIME, this.passwordEncoder.encode("123lorem."));
+        var Marie = new Technician(null, "Marie Lorem Ipsum", "marie@mail.com", TechnicianShift.NIGHTTIME, this.passwordEncoder.encode("123ipsum."));
+        var Andrew = new Technician(null, "Andrew Lorem Ipsum", "andrew@mail.com", TechnicianShift.DAYTIME, this.passwordEncoder.encode("123dolor."));
+        var Paul = new Technician(null, "Paul Lorem Ipsum", "paul@mail.com", TechnicianShift.NIGHTTIME, this.passwordEncoder.encode("123sit."));
 
         // instâncias de equipamentos
         var equipmentOne = new Equipment(null, "BR 070 DF", "34324", EquipmentType.WIM, "079", John);
