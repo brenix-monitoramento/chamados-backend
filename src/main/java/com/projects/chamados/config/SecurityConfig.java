@@ -1,5 +1,6 @@
 package com.projects.chamados.config;
 
+import com.projects.chamados.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,8 @@ public class SecurityConfig {
                 .headers(headers ->
                 headers.frameOptions(frame -> frame.sameOrigin()))
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/login", "/h2-console/**").permitAll()
+                .requestMatchers(Constants.PUBLIC_ENDPOINTS)
+                        .permitAll()
                 .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(customAuthenticationEntryPoint))
