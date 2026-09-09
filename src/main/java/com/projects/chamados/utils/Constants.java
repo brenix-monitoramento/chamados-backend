@@ -8,4 +8,5 @@ public class Constants {
     public static final String CHECK_THE_END_DATE_AND_END_TIME_FIELDS = "Verifique os campos de Data fim e Hora fim.";
     public static final String INVALID_CREDENTIALS = "Credenciais inválidas.";
     public final static String[] PUBLIC_ENDPOINTS = {"/auth/login", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**"};
+    public final static String SECURITY_SCHEME_NAME = "bearerAuth";
 }
