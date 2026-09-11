@@ -21,3 +21,7 @@ Repositório back-end do projeto de chamados.
 - Banco em memória H2
 - Gerenciador de dependências Maven
 - I.A Gemini para apoio em tarefas e sugestões
+
+## [Regras de negócio](./docs/business-rules.md)
+
+## [Modelagem de dados](./docs/data-model.png)
