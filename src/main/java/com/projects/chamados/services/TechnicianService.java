@@ -23,7 +23,8 @@ public class TechnicianService implements UserDetailsService {
     private TechnicianRepository technicianRepository;
 
     public Technician findIfExists(UUID technicianId){
-        return this.technicianRepository.findById(technicianId).orElseThrow(() -> new NotFoundException(Constants.TECHNICIAN_NOT_FOUND));
+        return this.technicianRepository.findById(technicianId)
+                .orElseThrow(() -> new NotFoundException(Constants.TECHNICIAN_NOT_FOUND));
     }
 
     // procura o técnico autenticado na requisição atual com base no e-mail do token
